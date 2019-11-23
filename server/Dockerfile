@@ -10,4 +10,4 @@ RUN git clone https://github.com/ajahl/massim_2019.git
 WORKDIR massim_2019
 RUN mvn package
 WORKDIR server
-CMD ["java","-jar","target/server-2019-2.1-jar-with-dependencies.jar","-conf","conf/SampleConfig.json"]
+CMD ["java","-jar","target/server-2019-2.1-jar-with-dependencies.jar","-conf","conf/SampleConfig.json","--monitor"]
