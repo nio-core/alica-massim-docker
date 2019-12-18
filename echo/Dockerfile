@@ -1,6 +1,6 @@
 FROM osrf/ros:melodic-desktop-full
 RUN apt-get update
-Run apt-get -y upgrade
+RUN apt-get -y upgrade
 RUN apt install -y capnproto libcapnp-dev
 
 RUN mkdir -p /catkin_ws/src
