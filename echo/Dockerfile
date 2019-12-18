@@ -6,6 +6,7 @@ RUN apt install -y capnproto libcapnp-dev
 RUN mkdir -p /catkin_ws/src
 WORKDIR catkin_ws/src
 RUN git clone https://github.com/dasys-lab/capnzero.git
+#RUN sed -i "s|224.0.0.2|pubsub-service|g" capnzero/capnzero/src/echo.cpp
 WORKDIR capnzero
 RUN rm -r capnzero_eval
 RUN rm -r discovery
