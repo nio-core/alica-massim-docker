@@ -12,25 +12,11 @@ spec:
       labels:
         app: pub
     spec:
-      hostNetwork: true
       containers:
       - name: pub-container
         image: pub:1.0
         tty: true
         stdin: true
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: pubsub-service
-spec:
-  type: LoadBalancer
-  selector:
-    app: echo
-  ports:
-  - port: 5555
-    name: echoport
-    
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -46,12 +32,8 @@ spec:
       labels:
         app: echo
     spec:
-      hostNetwork: true
       containers:
       - name: echo-container
         image: echo:1.0
         tty: true
         stdin: true
-        ports:
-          - name: echoport
-            containerPort: 5555
