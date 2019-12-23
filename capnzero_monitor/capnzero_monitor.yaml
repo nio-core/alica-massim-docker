@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pub
+  template:
+    metadata:
+      labels:
+        app: pub
+    spec:
+      containers:
+      - name: pub-container
+        image: pub_monitor:1.0
+        tty: true
+        stdin: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: echo
+  template:
+    metadata:
+      labels:
+        app: echo
+    spec:
+      containers:
+      - name: echo-container
+        image: echo_monitor:1.0
+        tty: true
+        stdin: true

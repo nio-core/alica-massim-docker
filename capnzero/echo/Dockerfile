@@ -6,7 +6,7 @@ RUN apt install -y capnproto libcapnp-dev
 RUN mkdir -p /catkin_ws/src
 WORKDIR catkin_ws/src
 RUN git clone https://github.com/dasys-lab/capnzero.git
-#RUN sed -i "s|224.0.0.2|pubsub-service|g" capnzero/capnzero/src/pub.cpp
+#RUN sed -i "s|224.0.0.2|capnzero|g" capnzero/capnzero/src/echo.cpp
 WORKDIR capnzero
 RUN rm -r capnzero_eval
 RUN rm -r discovery
@@ -24,4 +24,5 @@ RUN apt install -y libzmq3-dev
 RUN apt update
 RUN apt -y upgrade
 RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make'
-CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero pub topic "hello world"'
+CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero echo topic'
+
