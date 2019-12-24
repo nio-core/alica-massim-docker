@@ -41,12 +41,18 @@ WORKDIR capnzero-monitoring
 #change submodule from ssh to http
 RUN sed -i "s|git@github.com:|https://github.com/|g" .gitmodules
 
+#use cluster multicast address
+RUN sed -i "s|127.0.0.1:7890|224.0.0.2:5555|g" example/monitored-publisher/publisher_main.cpp
+
 RUN /bin/bash -c 'git submodule update --init'
 WORKDIR ..
 WORKDIR ..
 RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make'
 
-CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero pub topic "hello world"'
+#copy monitored-publisher into capnzero folder
+RUN cp -b build/capnzero-monitoring/bin/monitored-publisher devel/lib/capnzero
+
+CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero monitored-publisher'
 
 
 

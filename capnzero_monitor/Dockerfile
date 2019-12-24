@@ -10,7 +10,7 @@ RUN curl -O https://capnproto.org/capnproto-c++-0.7.0.tar.gz
 RUN tar zxf capnproto-c++-0.7.0.tar.gz
 WORKDIR capnproto-c++-0.7.0
 RUN /bin/bash -c './configure'
-RUN make -j2 check
+RUN make -j6 check
 RUN make install
 WORKDIR ..
 
@@ -41,15 +41,14 @@ WORKDIR capnzero-monitoring
 #change submodule from ssh to http
 RUN sed -i "s|git@github.com:|https://github.com/|g" .gitmodules
 
-#use cluster multicast address
-RUN sed -i "s|127.0.0.1:7890|224.0.0.2:5555|g" example/monitored-subscriber/subscriber_main.cpp
-
 RUN /bin/bash -c 'git submodule update --init'
 WORKDIR ..
 WORKDIR ..
 RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make'
 
-#copy monitored-subscriber into capnzero folder
-RUN cp -b build/capnzero-monitoring/bin/monitored-subscriber devel/lib/capnzero
+CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero-monitoring monitored-publisher'
 
-CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero monitored-subscriber'
+
+
+
+
