@@ -1,6 +1,17 @@
 FROM osrf/ros:melodic-desktop-full
+
+#update apt-get to install wget
 RUN apt-get update
 RUN apt-get -y upgrade
+RUN apt-get install wget
+
+#install catkin build tools
+RUN /bin/bash -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
+RUN wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get install -y python-catkin-tools
+
 RUN apt install -y capnproto libcapnp-dev
 
 RUN mkdir -p /catkin_ws/src
@@ -23,5 +34,5 @@ RUN wget https://download.opensuse.org/repositories/network:/messaging:/zeromq:/
 RUN apt install -y libzmq3-dev
 RUN apt update
 RUN apt -y upgrade
-RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make'
+RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin build'
 CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero pub topic "hello world"'
