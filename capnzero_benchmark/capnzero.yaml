@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: benchmark
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: benchmark
+  template:
+    metadata:
+      labels:
+        app: benchmark
+    spec:
+      containers:
+      - name: benchmark-container
+        image: benchmark:1.0
+        tty: true
+        stdin: true
