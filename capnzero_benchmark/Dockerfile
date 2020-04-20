@@ -1,4 +1,5 @@
 FROM osrf/ros:melodic-desktop-full
+
 #update apt-get to install wget
 RUN apt-get update
 RUN apt-get -y upgrade
@@ -6,16 +7,15 @@ RUN apt-get install wget
 
 #install catkin build tools
 RUN /bin/bash -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
-RUN wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+RUN wget http://packages.ros.org/ros.key -O - | apt-key add -
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get install -y python-catkin-tools
 
-#install latest cmake
-ADD https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2-Linux-x86_64.sh /cmake-3.16.2-Linux-x86_64.sh
-RUN mkdir /opt/cmake
-RUN sh /cmake-3.16.2-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
-RUN ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
+RUN apt install -y capnproto libcapnp-dev
+
+#uninstall default protobuf
+RUN apt-get remove -y libprotobuf-dev
 
 # Install protoc
 ENV PROTOBUF_URL https://github.com/google/protobuf/releases/download/v3.11.2/protobuf-cpp-3.11.2.tar.gz
@@ -33,16 +33,13 @@ RUN ldconfig
 WORKDIR ..
 WORKDIR ..
 
-#install capnproto
-RUN apt install -y capnproto libcapnp-dev
-
 #install java
 RUN apt-get install -y openjdk-11-jre 
 
 RUN mkdir -p /catkin_ws/src
 WORKDIR catkin_ws/src
 RUN git clone https://github.com/DiCoreSystems/ZeroMQEncoding.git
-#RUN sed -i "s|224.0.0.2|capnzero|g" capnzero/capnzero/src/echo.cpp
+#RUN sed -i "s|224.0.0.2|capnzero|g" capnzero/capnzero/src/pub.cpp
 WORKDIR ZeroMQEncoding
 RUN rm -r capnzero_eval
 RUN rm -r discovery
@@ -61,4 +58,3 @@ RUN apt update
 RUN apt -y upgrade
 RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin build'
 CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero benchmark'
-

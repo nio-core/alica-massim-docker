@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+ name: benchmark
+spec:
+ template:
+   metadata:
+     name: benchmark
+   spec:
+     containers:
+     - name: benchmark
+       image: benchmark:1.0
+       tty: true
+       stdin: true
+     restartPolicy: OnFailure
