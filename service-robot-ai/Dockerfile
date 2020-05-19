@@ -8,7 +8,7 @@ RUN apt-get install -y libsfml-dev
 
 #install catkin build tools
 RUN /bin/bash -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
-RUN wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+RUN wget http://packages.ros.org/ros.key -O - | apt-key add -
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get install -y python-catkin-tools
@@ -67,7 +67,7 @@ RUN git checkout CapnZero
 WORKDIR ..
 
 WORKDIR aspsuite
-RUN git checkout asp_dev
+RUN git checkout srg_dev
 WORKDIR ..
 
 WORKDIR capnzero
@@ -86,15 +86,17 @@ WORKDIR service-robot-ai
 RUN git checkout capnzero
 WORKDIR ..
 
-RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-RUN echo "source ~/PKVR/workspace/devel/setup.bash" >> ~/.bashrc
-RUN echo "#fancy prompt that also shows the current branch " >> ~/.bashrc
-RUN echo "export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \[\033[01;31m\]$(__git_ps1 "[%s]")\[\033[01;34m\]\$\[\033[00m\] '" >>  ~/.bashrc
-RUN /bin/bash -c 'source ~/.bashrc'
+#RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
+#RUN echo "source ~/PKVR/workspace/devel/setup.bash" >> ~/.bashrc
+#RUN echo "#fancy prompt that also shows the current branch " >> ~/.bashrc
+#RUN echo "export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \[\033[01;31m\]$(__git_ps1 "[%s]")\[\033[01;34m\]\$\[\033[00m\] '" >>  ~/.bashrc
+#RUN /bin/bash -c 'source ~/.bashrc'
 
 WORKDIR ..
 RUN apt update
 RUN apt -y upgrade
 RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin build'
-#CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero echo topic'
+WORKDIR src/service-robot-ai
+CMD /bin/bash -c 'source ../../devel/setup.bash; rosrun srg_base srg_base -m /catkin_ws/src/service-robot-ai/etc/plans/Human.pml'
+#CMD /bin/bash -c 'devel/lib/srg_base/srg_base -m /catkin_ws/src/service-robot-ai/etc/plans/Human.pml
 
