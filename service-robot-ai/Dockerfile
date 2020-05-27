@@ -97,6 +97,4 @@ RUN apt update
 RUN apt -y upgrade
 RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin build'
 WORKDIR src/service-robot-ai
-CMD /bin/bash -c 'source ../../devel/setup.bash; rosrun srg_base srg_base -m /catkin_ws/src/service-robot-ai/etc/plans/Human.pml'
-#CMD /bin/bash -c 'devel/lib/srg_base/srg_base -m /catkin_ws/src/service-robot-ai/etc/plans/Human.pml
-
+CMD /bin/bash -c 'source ../../devel/setup.bash; export uid=1000 gid=1000; rosrun srg_base srg_base -m "Human"'
