@@ -20,18 +20,6 @@ spec:
         env:
         - name: ROBOT
           value: leonardo
-        - name: DISPLAY
-          value: localhost:1.0
-      - name: xvfb
-        image: comiq/xvfb:latest
-        env:
-         - name: DISPLAY
-           value: "1"
-         - name: SCREEN
-           value: "0"
-        ports:
-          - name: xserver
-            containerPort: 6001
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -55,15 +43,3 @@ spec:
         env:
         - name: ROBOT
           value: donatello
-        - name: DISPLAY
-          value: "localhost:1.0"
-      - name: xvfb
-        image: comiq/xvfb:latest
-        env:
-         - name: DISPLAY
-           value: "1"
-         - name: SCREEN
-           value: "0"
-        ports:
-          - name: xserver
-            containerPort: 6001

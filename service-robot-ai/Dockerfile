@@ -2,7 +2,7 @@ FROM osrf/ros:melodic-desktop-full
 #update apt-get to install wget
 RUN apt-get update
 RUN apt-get -y upgrade
-RUN apt-get install wget
+#RUN apt-get install wget
 RUN apt install -y wget
 RUN apt-get install -y libsfml-dev
 
@@ -16,7 +16,7 @@ RUN apt-get install -y python-catkin-tools
 RUN apt install -y net-tools openjdk-11-jdk myrepos autoconf automake libtool cmake bison re2c build-essential g++ gitk uuid-dev capnproto libcapnp-dev python-catkin-tools qtscript5-dev
 
 RUN echo "deb http://download.opensuse.org/repositories/network:/messaging:/zeromq:/git-draft/xUbuntu_18.04/ ./" >> /etc/apt/sources.list
-RUN wget https://download.opensuse.org/repositories/network:/messaging:/zeromq:/git-draft/xUbuntu_18.04/Release.key -O- | apt-key add
+RUN wget --no-check-certificate https://download.opensuse.org/repositories/network:/messaging:/zeromq:/git-draft/xUbuntu_18.04/Release.key -O- | apt-key add
 RUN apt install -y libzmq3-dev
 
 RUN apt install -y capnproto libcapnp-dev
@@ -84,6 +84,7 @@ WORKDIR ..
 
 WORKDIR service-robot-ai
 RUN git checkout capnzero
+RUN sed -i "s|this->gui = new srg::GUI(this->agentName);|//this->gui = new srg::GUI(this->agentName);|g" srg_worldmodel/src/SRGWorldModel.cpp
 WORKDIR ..
 
 #RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
