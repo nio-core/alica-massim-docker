@@ -41,6 +41,10 @@ WORKDIR capnzero-monitoring
 #change submodule from ssh to http
 RUN sed -i "s|git@github.com:|https://github.com/|g" .gitmodules
 
+#change ip address from localhost to minikube multicast address
+RUN sed -i "s|127.0.0.1|224.0.0.2|g" src/config/monitorconfiguration.cpp
+
+
 RUN /bin/bash -c 'git submodule update --init'
 WORKDIR ..
 WORKDIR ..

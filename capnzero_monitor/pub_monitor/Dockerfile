@@ -48,8 +48,11 @@ WORKDIR capnzero-monitoring
 #change submodule from ssh to http
 RUN sed -i "s|git@github.com:|https://github.com/|g" .gitmodules
 
+#change ip address from localhost to minikube multicast address
+RUN sed -i "s|127.0.0.1:9876|224.0.0.2:9876|g" src/config/monitorconfiguration.cpp
+
 #use cluster multicast address
-RUN sed -i "s|127.0.0.1:7890|224.0.0.2:5555|g" example/monitored-publisher/publisher_main.cpp
+RUN sed -i "s|127.0.0.1:7890|224.0.0.2:7890|g" example/monitored-publisher/publisher_main.cpp
 
 RUN /bin/bash -c 'git submodule update --init'
 WORKDIR ..
@@ -58,8 +61,8 @@ RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make'
 
 #copy monitored-publisher into capnzero folder
 RUN cp -b build/capnzero-monitoring/bin/monitored-publisher devel/lib/capnzero
-
-CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero monitored-publisher'
+CMD ./devel/lib/capnzero/monitored-publisher
+#CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero monitored-publisher'
 
 
 
