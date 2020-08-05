@@ -53,13 +53,13 @@ spec:
         app: monitor
     spec:
       containers:
-      - name: monitor
+      - name: monitor-container
         image: monitor:1.0
         tty: true
         stdin: true
         ports:
           -  name: monitorport
-             containerPort: 45678
+             containerPort: 12345
 ---
 apiVersion: v1
 kind: Service
@@ -70,7 +70,6 @@ spec:
   selector:
     app: monitor
   ports:
-  - port: 45678
-    nodePort: 30123  
-    name: monitorport
-    protocol: TCP
+  - port: 12345
+    targetPort: 12345
+    nodePort: 31234  
