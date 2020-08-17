@@ -1,8 +1,6 @@
 FROM osrf/ros:melodic-desktop-full
-#update apt-get to install wget
 RUN apt-get update
 RUN apt-get -y upgrade
-#RUN apt-get install wget
 RUN apt install -y wget
 RUN apt-get install -y libsfml-dev
 
@@ -25,12 +23,12 @@ RUN mkdir catkin_ws
 WORKDIR catkin_ws
 
 RUN mkdir src
-#RUN catkin init
 
 WORKDIR src
 
 RUN git clone https://github.com/potassco/clingo.git
 WORKDIR clingo/
+RUN git checkout -b kub aee5dacc3faed4e47f1efba05733e962fd15a4ce
 RUN mkdir build
 RUN git submodule update --init --recursive
 WORKDIR build
@@ -60,38 +58,42 @@ WORKDIR ..
 
 WORKDIR alica
 RUN git checkout newPD
+RUN git checkout -b kub_newPD a07c1c00181059b6add4bc04d97f0396e281aa5d
 WORKDIR ..
 
 WORKDIR alica-supplementary
 RUN git checkout CapnZero
+RUN git checkout -b kub_CapnZero ecc9cc5d0cb4c86e93c131c47a8d314bd2e763e5
 WORKDIR ..
 
 WORKDIR aspsuite
 RUN git checkout srg_dev
+RUN git checkout -b kub_srg_dev 3f547293ee26faf80169a453cbc5d32507376a88
 WORKDIR ..
 
 WORKDIR capnzero
-RUN git checkout master
+RUN git checkout -b kub_srai eab8d9e840d3e0017fdd8e03689c136213a609e6
 WORKDIR ..
 
 WORKDIR essentials
 RUN git checkout CapnZero
+RUN git checkout -b kub_CapnZero 61170f55780e1a2b66ab18d29661c703b5b96d52
 WORKDIR ..
 
 WORKDIR alica-plan-designer-fx
 RUN git checkout master
+RUN git checkout -b kub 312b7b205f2a15c2f9df0c7c2838f4dcbb88718d
 WORKDIR ..
 
 WORKDIR service-robot-ai
 RUN git checkout capnzero
+RUN git checkout -b kub_capnzero 84c42ec50f3fb0a52854c8c3d3c0154bfec048fc
 RUN sed -i "s|this->gui = new srg::GUI(this->agentName);|//this->gui = new srg::GUI(this->agentName);|g" srg_worldmodel/src/SRGWorldModel.cpp
 WORKDIR ..
 
-#RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
-#RUN echo "source ~/PKVR/workspace/devel/setup.bash" >> ~/.bashrc
-#RUN echo "#fancy prompt that also shows the current branch " >> ~/.bashrc
-#RUN echo "export PS1='\[\033[01;32m\]\u@\h\[\033[01;34m\] \w \[\033[01;31m\]$(__git_ps1 "[%s]")\[\033[01;34m\]\$\[\033[00m\] '" >>  ~/.bashrc
-#RUN /bin/bash -c 'source ~/.bashrc'
+WORKDIR service-robot-grid-simulation
+RUN git checkout -b kub 22c2ead171fb4f0fcecdc5584e92b275553efbdd
+WORKDIR ..
 
 WORKDIR ..
 RUN apt update

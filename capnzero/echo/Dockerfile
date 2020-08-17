@@ -35,4 +35,3 @@ RUN apt update
 RUN apt -y upgrade
 RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin build'
 CMD /bin/bash -c 'source devel/setup.bash; rosrun capnzero echo topic'
-
