@@ -48,11 +48,14 @@ WORKDIR ..
 RUN mkdir -p /catkin_ws/src
 WORKDIR catkin_ws/src
 RUN git clone https://github.com/DiCoreSystems/ZeroMQEncoding.git
+
+#use this instead of git clone for testing local source code
 #RUN sed -i "s|224.0.0.2|capnzero|g" capnzero/capnzero/src/pub.cpp
 #COPY /zeromq_monitoring_ws /zeromq_monitoring_ws
 #WORKDIR /zeromq_monitoring_ws
 #RUN rm -r devel build
-#WORKDIR src/ZeroMQEncoding
+#WORKDIR src/
+
 WORKDIR ZeroMQEncoding
 RUN git checkout capnzero-monitoring-minikube
 RUN rm -r capnzero_eval
